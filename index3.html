@@ -333,8 +333,7 @@
 
           document.querySelectorAll('.thumbnail').forEach(item => {
             item.addEventListener('click', function(event) {
-              console.log(event)
-              url = event.target.src;
+              url = event.target.src.replace('https://img.didacommunicationlab.it/300/','');
               cropper.replace(url);
               closeThumbnails();
             });
