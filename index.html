@@ -42,26 +42,13 @@
       float: left;
     }
 
-    .mask {
-      position: absolute;
+    .imagemask {
       height: 100%;
-      width: 35%;
-      z-index: 2;
-      bottom: 0px;
-      background-color: grey;
-    }
-
-    #left-mask {
-      left: 0px;
-    }
-
-    #right-mask {
-      right: 0px;
-    }
-
-    #result_mobile_div {
-      height: 300px;
-      background-position: center;
+      width: 100%;
+      object-fit: contain;
+      position: absolute;
+      top: 0;
+      left: 0;
     }
 
     #alert {
@@ -116,7 +103,7 @@
     </h1>
     <p>
       Utility per la creazione di immagini di copertina per i siti dei dipartimenti di <a href="http://www.unifi.it">unifi.it</a> <br>
-      (output richiesto: jpg 1920x654px &lt;300kb)
+      (output richiesto: jpg 1920x960px &lt;300kb)
     </p>
     <hr>
 
@@ -157,20 +144,24 @@
       <div class="wrapper" id="anteprima_wrapper">
 
         <div class="preview-container">
-          <img class="preview" id="result"><br>
-        </div>
-        <p> anteprima versione desktop</p>
-
-
-        <div class="preview-container">
           <img class="preview" id="result_mobile">
-          <div class="mask" id="left-mask"></div>
-          <div class="mask" id="right-mask"></div>
+          <img src="./mobilemask.png" class="imagemask">
         </div>
         <p> anteprima versione mobile</p>
 
+        <div class="preview-container">
+          <img class="preview" id="result_desktop"><br>
+          <img src="./desktopmask.png" class="imagemask">
+        </div>
+        <p> anteprima versione desktop</p>
 
-      </div> 
+        <div class="preview-container">
+          <img class="preview" id="result_largescreen">
+          <img src="./largescreenmask.png" class="imagemask">
+        </div>
+        <p> anteprima versione schermi grandi</p>
+
+      </div>
     </div> <!-- flexbox container -->
 
 
@@ -188,8 +179,9 @@
         const image_loader = document.querySelector('#image_loader')
         const image = document.querySelector('#image')
         const preview = document.querySelector('#preview')
-        const result = document.querySelector('#result')
+        const result_desktop = document.querySelector('#result_desktop')
         const result_mobile = document.querySelector('#result_mobile')
+        const result_largescreen = document.querySelector('#result_largescreen')
         const download_link = document.querySelector('#download_link')
 
         document.querySelector('#img_uno').addEventListener('click', function() {
@@ -212,7 +204,7 @@
         });
 
         const cropper = new Cropper(image, {
-          aspectRatio: 1920 / 654, // size of output image
+          aspectRatio: 2000 / 1000, // size of output image
           viewMode: 1, // restricts crop area to image area
           preview: preview,
           autoCropArea: 1,
@@ -247,8 +239,9 @@
             maxWidth: 1920
           }).toBlob(function(blob) {
               url = URL.createObjectURL(blob);
-              result.src = url;
+              result_desktop.src = url;
               result_mobile.src = url;
+              result_largescreen.src = url;
               download_link.href = url;
             }, 'image/jpeg', 0.7 // image type and quality
           );
