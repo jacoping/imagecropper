@@ -29,6 +29,10 @@
       margin: 20px
     }
 
+    #loading {
+      display: flex;
+    }
+
     div.cropper-container {
       max-width: 500px;
     }
@@ -60,6 +64,8 @@
     #download_link {
       display: none;
     }
+
+
   </style>
 
 
@@ -100,19 +106,26 @@
 
 
 
+  <div id="header">
+    <div class="wrapper">
+      <h1>
+        Unifi Cover Cropper
+      </h1>
+      <p>
+        Utility per la creazione di immagini di copertina per i siti dei dipartimenti di <a href="http://www.unifi.it">unifi.it</a> <br>
+        (output richiesto: jpg 1920x960px &lt;300kb)
+      </p>
+      <hr>
+    </div>
+  </div>
 
-  <div class="wrapper">
+  <div class="wrapper" id="loading">
+    loading...
+  </div>
 
-    <h1>
-      Unifi Cover Cropper
-    </h1>
-    <p>
-      Utility per la creazione di immagini di copertina per i siti dei dipartimenti di <a href="http://www.unifi.it">unifi.it</a> <br>
-      (output richiesto: jpg 1920x960px &lt;300kb)
-    </p>
-    <hr>
+  <div id="main">
 
-    <div class="flex">
+    <div class="flex wrapper">
       <div>
         <p>
           <button id="open-thumbnails-button" class="button button-outline">
@@ -128,48 +141,46 @@
         <p> In alternativa cerca altre immagini su <a href="https://www.pexels.com/it-it/">Pexels.com</a></p>
       </div>
     </div>
+
+
+    <!-- Wrap the image or canvas element with a block element (container) -->
+    <div class="flex">
+
+      <div class="wrapper" id="cropper_wrapper">
+        <div class="cropper-container">
+          <img class="cropper" id="image" src="sample_uno.jpg">
+        </div>
+        <p>
+          Risoluzione origine: <span id="info"> </span> &nbsp
+          <br>
+          <a href="#" id="download_link" download="cropped.jpg">SCARICA IMMAGINE RITAGLIATA</a>
+          <span id="alert">RISOLUZIONE TROPPO BASSA</span>
+      </div>
+
+      <div class="wrapper" id="anteprima_wrapper">
+
+        <div class="preview-container">
+          <img class="preview" id="result_mobile">
+          <img src="./mobilemask.png" class="imagemask">
+        </div>
+        <p> anteprima versione mobile</p>
+
+        <div class="preview-container">
+          <img class="preview" id="result_desktop"><br>
+          <img src="./desktopmask.png" class="imagemask">
+        </div>
+        <p> anteprima versione desktop</p>
+
+        <div class="preview-container">
+          <img class="preview" id="result_largescreen">
+          <img src="./largescreenmask.png" class="imagemask">
+        </div>
+        <p> anteprima versione schermi grandi</p>
+
+      </div>
+    </div>
+
   </div>
-
-
-
-
-  <!-- Wrap the image or canvas element with a block element (container) -->
-
-  <div class="flex">
-
-    <div class="wrapper" id="cropper_wrapper">
-      <div class="cropper-container">
-        <img class="cropper" id="image" src="sample_uno.jpg">
-      </div>
-      <p>
-        Risoluzione origine: <span id="info"> </span> &nbsp
-        <br>
-        <a href="#" id="download_link" download="cropped.jpg">SCARICA IMMAGINE RITAGLIATA</a>
-        <span id="alert">RISOLUZIONE TROPPO BASSA</span>
-    </div>
-
-    <div class="wrapper" id="anteprima_wrapper">
-
-      <div class="preview-container">
-        <img class="preview" id="result_mobile">
-        <img src="./mobilemask.png" class="imagemask">
-      </div>
-      <p> anteprima versione mobile</p>
-
-      <div class="preview-container">
-        <img class="preview" id="result_desktop"><br>
-        <img src="./desktopmask.png" class="imagemask">
-      </div>
-      <p> anteprima versione desktop</p>
-
-      <div class="preview-container">
-        <img class="preview" id="result_largescreen">
-        <img src="./largescreenmask.png" class="imagemask">
-      </div>
-      <p> anteprima versione schermi grandi</p>
-
-    </div>
-  </div> <!-- flexbox container -->
 
 
   <div class="thumbnails-container">
@@ -283,9 +294,7 @@
     </div>
   </div>
 
-  <div id="loading">
-    loading...
-  </div>
+
 
   <style>
     .thumbnails-container {
@@ -306,17 +315,6 @@
       top: 10px;
     }
 
-    #loading {
-      position: absolute;
-      top: 0;
-      left: 0;
-      bottom: 0;
-      right: 0;
-      background-color: #eee;
-      display: flex;
-      justify-content: center;
-      align-items: center;
-    }
   </style>
 
   <script type="text/javascript">
@@ -341,8 +339,14 @@
 
     closeThumbnails()
 
-    $(window).on('load', function(){
-      document.querySelector('#loading').style.display = "none";
+
+    // loading message
+
+    $('#main').hide();
+
+    $(window).on('load', function() {
+      $('#loading').hide();
+      $('#main').show();
     });
 
 
