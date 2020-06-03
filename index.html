@@ -334,11 +334,11 @@
 
     // loading message
 
-    $('#main').hide();
+    document.querySelector('#main').style.visibility = "hidden";
 
     $(window).on('load', function() {
       $('#loading').hide();
-      $('#main').show();
+      document.querySelector('#main').style.visibility = "visible";
     });
 
 
